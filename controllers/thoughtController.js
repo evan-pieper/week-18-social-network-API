@@ -5,7 +5,7 @@ module.exports = {
     async getAllThoughts(req, res) {
         try {
             const thoughts = await Thought.find().populate({ path: 'reactions', select: '-__v' });
-            res.json(thoughts);
+            res.status(200).json(thoughts);
         } catch (err) {
             console.error({ message: err });
             res.status(500).json(err);
@@ -17,7 +17,7 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({ message: 'No thought with that ID' });
             }
-            res.json(thought);
+            res.status(200).json(thought);
         } catch (err) {
             res.status(500).json(err);
         }
@@ -25,7 +25,7 @@ module.exports = {
     async createThought(req, res) {
         try {
             const thought = await Thought.create(req.body);
-            res.json(thought);
+            res.status(200).json(thought);
         } catch (err) {
             res.status(500).json(err);
         }
@@ -34,19 +34,23 @@ module.exports = {
         const { thoughtId } = req.params;
         const { body } = req.body;
         try {
-            const updatedThought = await Thought.findOneAndUpdate(
+            const updatedThought = await Thought.findOneAndUpdate( // Find thought by ID and update it
                 thoughtId,
                 { $set: { body } },
                 { runValidators: true, new: true }
             );
+            if (!updatedThought) {
+                return res.status(404).json({ message: 'No thought with that ID' }); // If no thought with that ID, return 404
+            }
+            res.status(200).json(updatedThought); // Otherwise, return updated thought
         } catch (err) {
             res.status(500).json(err);
         }
     },
     async deleteThought(req, res) {
         try {
-            const deletedThought = await Thought.findOneAndDelete(req.params.thoughtId);
-            res.json(deletedThought);
+            const deletedThought = await Thought.findOneAndDelete(req.params.thoughtId); // Find thought by ID and delete it
+            res.status(200).json(deletedThought);
         } catch (err) {
             res.status(500).json(err);
         }
