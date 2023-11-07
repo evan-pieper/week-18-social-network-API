@@ -13,7 +13,7 @@ module.exports = {
     },
     async getThoughtById(req, res) {
         try {
-            const thought = await Thought.findOne({ _id: req.params.thoughtId }).populate("users"); // Find thought by ID and populate users
+            const thought = await Thought.findOne({ _id: req.params.thoughtId }).populate({path: 'reactions', select: '-__v'}); // Find thought by ID and populate users
             if (!thought) {
                 return res.status(404).json({ message: 'No thought with that ID' });
             }
