@@ -5,6 +5,6 @@ const { getAllThoughts, getThoughtById, createThought, updateThought, deleteThou
 router.route('/').get(getAllThoughts).post(createThought);
 
 // /api/thoughts/:id
-router.route('/:id').get(getThoughtById).put(updateThought).delete(deleteThought);
+router.route('/:thoughtId').get(getThoughtById).put(updateThought).delete(deleteThought);
 
 module.exports = router;

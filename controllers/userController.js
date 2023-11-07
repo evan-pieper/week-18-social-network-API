@@ -4,7 +4,7 @@ const Thought = require('../models/Thought');
 module.exports = {
     async getAllUsers(req, res) {
         try {
-            const users = await User.find();
+            const users = await User.find().populate("friends");
             res.status(200).json(users);
         } catch (err) {
             res.status(500).json(err);
