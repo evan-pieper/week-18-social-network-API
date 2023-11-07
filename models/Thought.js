@@ -1,12 +1,11 @@
-const mongoose = require('mongoose');
-const { Schema, model } = mongoose;
-import reactionSchema from './Reaction.js';
+const { Schema, model } = require('mongoose');
+import ReactionSchema from './Reaction.js';
 
-const thoughtSchema = new Schema({
+const ThoughtSchema = new Schema({
 	thoughtText: {type: String, required: true, minlength: 1, maxlength: 280 }, // tells the schema to only allow 1-280 characters per thought
 	createdAt: {type: Date, default: Date.now, get: (timestamp) => dateFormat(timestamp)},
 	username: {type: String, required: true},
-	reactions: [reactionSchema] // use ReactionSchema to validate data for a reaction
+	reactions: [ReactionSchema] // use ReactionSchema to validate data for a reaction
 }, {
 	toJSON: {
 		getters: true, // tells the schema to use getter functions specified in the schema when data is requested
@@ -15,9 +14,9 @@ const thoughtSchema = new Schema({
 	id: false
 });
 
-thoughtSchema.virtual('reactionCount').get(function() { // virtual that returns the number of reactions in a thought's reactions array
+ThoughtSchema.virtual('reactionCount').get(function() { // virtual that returns the number of reactions in a thought's reactions array
 	return this.reactions.length;
 });
 
-const Thought = model('Thought', thoughtSchema);
+const Thought = model('Thought', ThoughtSchema);
 module.exports = Thought;
