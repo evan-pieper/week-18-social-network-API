@@ -40,11 +40,11 @@ module.exports = {
     },
     async updateThought(req, res) {
         const { thoughtId } = req.params;
-        const { body } = req.body;
+        const { thoughtText } = req.body;
         try {
             const updatedThought = await Thought.findOneAndUpdate( // Find thought by ID and update it
-                thoughtId,
-                { $set: { body } },
+                {_id: thoughtId},
+                { thoughtText },
                 { runValidators: true, new: true }
             );
             if (!updatedThought) {
