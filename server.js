@@ -16,7 +16,7 @@ mongoose.connection.on('connected', () => {
   console.log('Connected to MongoDB at ' + connectionString);
 });
 
-// Require our routes
+// Use apiRoutes
 app.use(require('./routes'));
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
