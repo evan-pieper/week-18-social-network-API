@@ -9,12 +9,12 @@ app.use(express.urlencoded({ extended: true }));
 const connectionString = process.env.MONGODB_URI || 'mongodb://localhost/socialNetworkDB'; // If deployed, use the deployed database. Otherwise use the local database
 
 mongoose.connect(connectionString, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 
 mongoose.connection.on('connected', () => {
-  console.log('Connected to MongoDB at ' + connectionString);
+    console.log('Connected to MongoDB at ' + connectionString);
 });
 
 // Use API Routes
