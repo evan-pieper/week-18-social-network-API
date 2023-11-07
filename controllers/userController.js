@@ -12,7 +12,7 @@ module.exports = {
     },
     async getUserById(req, res) {  // Get a single user by ID
         try {
-            const user = await User.findOne({ _id: req.params.userId }).select('-__v');
+            const user = await User.findOne({ _id: req.params.userId }).populate({path:"thoughts", select: "-__v"});
             if (!user) {return res.status(404).json({ message: 'No user with that ID' });}
             res.status(200).json(user);
         } catch (err) {

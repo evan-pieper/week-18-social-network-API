@@ -1,11 +1,11 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model} = require('mongoose');
 const dateFormat = require('../utils/dateFormat')
 const ReactionSchema = require('../models/Reaction');
 
 const ThoughtSchema = new Schema({
 	thoughtText: {type: String, required: true, minlength: 1, maxlength: 280 }, // tells the schema to only allow 1-280 characters per thought
 	createdAt: {type: Date, default: Date.now, get: (timestamp) => dateFormat(timestamp)},
-	username: {type: String, required: true},
+	authorId: {type: Schema.Types.ObjectId, ref: 'User', required: true}, // tells the schema to expect an ObjectId for a User model and to require it
 	reactions: [ReactionSchema] // use ReactionSchema to validate data for a reaction
 }, {
 	toJSON: {

@@ -1,9 +1,10 @@
 const Thought = require('../models/Thought');
+const User = require('../models/User');
 
 module.exports = {
     async getAllThoughts(req, res) {
         try {
-            const thoughts = await Thought.find().populate({ path: 'reactions', select: '-__v' });
+            const thoughts = await Thought.find().populate({path: 'reactions', select: '-__v'});//.populate({path:"users", select: '-__v'});
             res.status(200).json(thoughts);
         } catch (err) {
             console.error({ message: err });
@@ -12,7 +13,7 @@ module.exports = {
     },
     async getThoughtById(req, res) {
         try {
-            const thought = await Thought.findOne({ _id: req.params.thoughtId }).populate({ path: 'reactions', select: '-__v' });
+            const thought = await Thought.findOne({ _id: req.params.thoughtId }).populate("users"); // Find thought by ID and populate users
             if (!thought) {
                 return res.status(404).json({ message: 'No thought with that ID' });
             }
@@ -24,6 +25,14 @@ module.exports = {
     async createThought(req, res) {
         try {
             const thought = await Thought.create(req.body);
+            const user = await User.findOneAndUpdate( // Find user by ID and update it by pushing a thought to the thoughts array
+                { _id: req.body.authorId },
+                { $push: { thoughts: thought._id } },
+                { new: true }
+            );
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that ID' });
+            }
             res.status(200).json(thought);
         } catch (err) {
             res.status(500).json(err);
