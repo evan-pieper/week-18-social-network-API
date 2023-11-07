@@ -16,5 +16,5 @@ const reactionSchema = new Schema({
     }
 });
 
-// Since this isn't a model but a subdocument schema for the Thought model, we don't compile it with mongoose.model(). Instead, we export the schema directly.
+// Since this isn't a model but a subdocument schema for the Thought model, we don't need to initialize an instance of the model. Instead, we export the schema directly.
 module.exports = reactionSchema;
