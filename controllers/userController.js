@@ -11,8 +11,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-    // Get a single user
-    async getSingleUser(req, res) {
+    async getSingleUser(req, res) {  // Get a single user by ID
         try {
             const user = await User.findOne({ _id: req.params.userId }).select('-__v');
             if (!user) {return res.status(404).json({ message: 'No user with that ID' });}
@@ -21,8 +20,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-    // create a new user
-    async createUser(req, res) {
+    async createUser(req, res) {   // Create a user based on request body
         try {
             const user = await User.create(req.body);
             res.json(user);
@@ -30,8 +28,22 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-    // Delete a user and associated apps
-    async deleteUser(req, res) {
+    async updateUser(req, res) {   // Update a user
+        const { userId } = req.params;
+        const { username, email , friends} = req.body;
+        try {
+            const updatedUser = await User.findByIdAndUpdate(
+                userId,
+                { username, email , friends},
+                { new: true, runValidators: true }
+            );
+            if (!updatedUser) {return res.status(404).json({ message: 'No user with that ID' });} // If no user with that ID, return 404
+            res.json(updatedUser); // Otherwise, return updated user
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+    async deleteUser(req, res) {     // Delete a user and associated apps
         try {
             const user = await User.findOneAndDelete({ _id: req.params.userId });
             if (!user) {return res.status(404).json({ message: 'No user with that ID' });}
