@@ -1,12 +1,9 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const { Schema, Types } = require('mongoose');
+const dateFormat = require('../utils/dateFormat')
 
 // Schema for reactions (subdocument of Thought model)
 const reactionSchema = new Schema({
-    reactionId: {
-        type: Schema.Types.ObjectId,
-        default: () => new mongoose.Types.ObjectId() // Generates a new unique identifier for each reaction
-    },
+    reactionId: {type: Schema.Types.ObjectId, default: () => new Types.ObjectId()}, // Default function generates a new unique identifier for each reaction
     reactionBody: {type: String, required: true, maxlength: 280},
     username: {type: String, required: true},
     createdAt: {type: Date, default: Date.now, get: (timestamp) => dateFormat(timestamp)}
