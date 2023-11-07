@@ -3,7 +3,7 @@ const Thought = require('../models/Thought');
 
 module.exports = {
     // Get all users
-    async getUsers(req, res) {
+    async getAllUsers(req, res) {
         try {
             const users = await User.find();
             res.json(users);
@@ -11,7 +11,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-    async getSingleUser(req, res) {  // Get a single user by ID
+    async getUserById(req, res) {  // Get a single user by ID
         try {
             const user = await User.findOne({ _id: req.params.userId }).select('-__v');
             if (!user) {return res.status(404).json({ message: 'No user with that ID' });}

@@ -2,7 +2,7 @@ const Reaction = require('../models/Reaction');
 const Thought = require('../models/Thought');
 
 module.exports = {
-    async addReaction(req, res) {
+    async createReaction(req, res) {
         try {
             const reaction = await Reaction.create(req.body);
             res.json(reaction);

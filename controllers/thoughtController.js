@@ -2,7 +2,7 @@ const Thought = require('../models/Thought');
 
 module.exports = {
 
-    async getThoughts(req, res) {
+    async getAllThoughts(req, res) {
         try {
             const thoughts = await Thought.find().populate({ path: 'reactions', select: '-__v' });
             res.json(thoughts);
@@ -11,7 +11,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-    async getSingleThought(req, res) {
+    async getThoughtById(req, res) {
         try {
             const thought = await Thought.findOne({ _id: req.params.thoughtId }).populate({ path: 'reactions', select: '-__v' });
             if (!thought) {
