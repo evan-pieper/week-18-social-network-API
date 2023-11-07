@@ -30,4 +30,26 @@ module.exports = {
             res.status(500).json(err);
         }
     },
+    async updateThought(req, res) {
+        const { thoughtId } = req.params;
+        const { body } = req.body;
+        try {
+            const updatedThought = await Thought.findOneAndUpdate(
+                thoughtId,
+                { $set: { body } },
+                { runValidators: true, new: true }
+            );
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+    async deleteThought(req, res) {
+        const { thoughtId } = req.params;
+        try {
+            const deletedThought = await Thought.findOneAndDelete(thoughtId);
+            res.json(deletedThought);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
 };
