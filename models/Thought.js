@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat')
-import ReactionSchema from './Reaction.js';
+const ReactionSchema = require('../models/Reaction');
 
 const ThoughtSchema = new Schema({
 	thoughtText: {type: String, required: true, minlength: 1, maxlength: 280 }, // tells the schema to only allow 1-280 characters per thought

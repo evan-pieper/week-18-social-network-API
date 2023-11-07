@@ -1,7 +1,6 @@
 const Thought = require('../models/Thought');
 
 module.exports = {
-
     async getAllThoughts(req, res) {
         try {
             const thoughts = await Thought.find().populate({ path: 'reactions', select: '-__v' });
