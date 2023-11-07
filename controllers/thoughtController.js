@@ -44,9 +44,8 @@ module.exports = {
         }
     },
     async deleteThought(req, res) {
-        const { thoughtId } = req.params;
         try {
-            const deletedThought = await Thought.findOneAndDelete(thoughtId);
+            const deletedThought = await Thought.findOneAndDelete(req.params.thoughtId);
             res.json(deletedThought);
         } catch (err) {
             res.status(500).json(err);
